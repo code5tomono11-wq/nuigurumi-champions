@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Pokemon V14 Online</title>
+</head>
+<body>
+
+<h1>Pokemon V14 Online</h1>
+
+<button id="create">ルーム作成</button>
+
+<hr>
+
+<input id="roomCode" placeholder="6桁コード">
+
+<button id="join">参加</button>
+
+<h2 id="status">待機中</h2>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+
+document.getElementById("create").onclick = () => {
+    socket.emit("createRoom");
+};
+
+document.getElementById("join").onclick = () => {
+    const code =
+        document.getElementById("roomCode").value;
+
+    socket.emit("joinRoom", code);
+};
+
+socket.on("roomCreated", (code) => {
+    document.getElementById("status").innerText =
+        "ルームコード: " + code;
+});
+
+socket.on("battleReady", () => {
+    document.getElementById("status").innerText =
+        "相手が参加しました！";
+});
+
+socket.on("errorMessage", (msg) => {
+    alert(msg);
+});
+</script>
+
+</body>
+</html>
