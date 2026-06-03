@@ -159,8 +159,6 @@ style="height:20px;background:lime;width:100%">
 
 <div id="moves">
 
-<div id="moves">
-
 <button onclick="useMove1()" id="move1">
 技1
 </button>
@@ -280,7 +278,7 @@ html;
 let player;
 let enemy;
 
-let skipTurn=false
+let skipTurn=false;
 
 let currentIndex=0;
 
@@ -383,7 +381,7 @@ return;
 }
 
 enemyTurn();
-
+｝
 }function specialMove(){
 
 if(player.name==="ポム子"){
@@ -501,7 +499,29 @@ drawBattle();
 
 enemyTurn();
 }
+function enemyTurn(){
 
+let damage=enemy.atk;
+
+if(shieldTurns>0){
+
+damage=Math.floor(damage/2);
+
+shieldTurns--;
+
+}
+
+player.hp-=damage;
+
+if(player.hp<0)
+player.hp=0;
+
+document.getElementById("log").innerText=
+enemy.name+"の攻撃！";
+
+drawBattle();
+
+}
 function switchCharacter(){
 
 if(currentIndex>=team.length-1){
