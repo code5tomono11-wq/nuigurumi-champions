@@ -298,6 +298,8 @@ function startBattle(){
 
 let buffTurns=0;
 
+let enemyBuffTurns=0;
+
 if(team.length!==3){
 
 alert("3体選んでください");
@@ -349,9 +351,22 @@ player.name;
 
 if(poisonTurns>0){
 
-document.getElementById("enemyName").innerText=
-enemy.name+" ☠";
+let enemyDisplayName=enemy.name;
 
+if(enemyBuffTurns>0){
+
+enemyDisplayName+=" 🔥";
+
+}
+
+if(poisonTurns>0){
+
+enemyDisplayName+=" ☠";
+
+}
+
+document.getElementById("enemyName").innerText=
+enemyDisplayName;
 }
 else{
 
@@ -617,6 +632,18 @@ enemyTurn();
 }
 function enemyTurn(){
 
+let damage=enemy.atk;
+
+if(enemyBuffTurns>0){
+
+damage*=2;
+
+enemyBuffTurns--;
+
+}
+
+let move=Math.floor(Math.random()*5);
+
 if(poisonTurns>0){
 
 enemy.hp-=5;
@@ -640,6 +667,49 @@ return;
 }
 
 }
+
+if(enemy.name==="将来有望なケンタッキーのチキン" && move===0){
+
+enemyBuffTurns=3;
+
+document.getElementById("log").innerText=
+"敵チキンのコケコッコー！";
+
+drawBattle();
+
+return;
+
+}
+if(enemy.name==="くうちゃん" && move===0){
+
+player.hp-=70;
+
+if(player.hp<0)
+player.hp=0;
+
+document.getElementById("log").innerText=
+"敵くうちゃんのおもりキック！";
+
+drawBattle();
+
+return;
+
+}
+
+if(enemy.name==="スイカゼリー" && move===0){
+
+shieldTurns=2;
+
+document.getElementById("log").innerText=
+"敵スイカの殻盾！";
+
+drawBattle();
+
+return;
+
+}
+
+
 
 let damage=enemy.atk;
 
