@@ -157,26 +157,25 @@ style="height:20px;background:lime;width:100%">
 
 <br>
 
-<<div id="moves">
+<div id="moves">
 
 <div id="moves">
 
-<button onclick="move1()" id="move1">
+<button onclick="useuseMove1()" id="move1">
 技1
 </button>
 
-<button onclick="move2()" id="move2">
+<button onclick="useuseMove2()" id="move2">
 技2
 </button>
 
-<button onclick="move3()" id="move3">
+<button onclick="useuseMove3()" id="move3">
 技3
 </button>
 
-<button onclick="move4()" id="move4">
+<button onclick="useuseMove4()" id="move4">
 技4
 </button>
-
 </div>
 
 <br><br>
@@ -528,6 +527,68 @@ drawBattle();
 
 document.getElementById("log").innerText=
 player.name+"登場！";
+
+enemyTurn();
+
+}
+function useMove1(){
+
+enemy.hp-=20;
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+
+return;
+
+}
+
+enemyTurn();
+
+}
+
+function useMove2(){
+
+enemy.hp-=35;
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+
+return;
+
+}
+
+enemyTurn();
+
+}
+
+function useMove3(){
+
+specialMove();
+
+}
+
+function useMove4(){
+
+if(player.name==="スイカゼリー"){
+
+shieldTurns=3;
+
+document.getElementById("log").innerText=
+"スイカの殻盾！";
+
+}
+else{
+
+document.getElementById("log").innerText=
+"まもる！";
+
+}
 
 enemyTurn();
 
