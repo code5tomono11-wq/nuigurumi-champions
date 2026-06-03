@@ -345,8 +345,37 @@ function drawBattle(){
 document.getElementById("playerName").innerText=
 player.name;
 
+if(poisonTurns>0){
+
+document.getElementById("enemyName").innerText=
+enemy.name+" ☠";
+
+}
+else{
+
 document.getElementById("enemyName").innerText=
 enemy.name;
+
+if(poisonTurns>0){
+
+document.getElementById("enemyName").innerText=
+enemy.name+" ☠";
+
+document.getElementById("enemyName").style.color=
+"violet";
+
+}
+else{
+
+document.getElementById("enemyName").innerText=
+enemy.name;
+
+document.getElementById("enemyName").style.color=
+"white";
+
+}
+
+}
 
 document.getElementById("playerImg").src=
 player.img;
