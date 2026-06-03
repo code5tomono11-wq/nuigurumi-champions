@@ -159,22 +159,54 @@ style="height:20px;background:lime;width:100%">
 
 <div id="moves">
 
-<button onclick="useMove1()" id="move1">
-技1
-</button>
+function updateMoves(){
 
-<button onclick="useMove2()" id="move2">
-技2
-</button>
+if(player.name==="将来有望なケンタッキーのチキン"){
 
-<button onclick="useMove3()" id="move3">
-技3
-</button>
+move1.innerText="つつく";
+move2.innerText="はばたく";
+move3.innerText="コケコッコー";
+move4.innerText="まもる";
 
-<button onclick="useMove4()" id="move4">
-技4
-</button>
-</div>
+}
+
+else if(player.name==="くうちゃん"){
+
+move1.innerText="キック";
+move2.innerText="ダッシュキック";
+move3.innerText="おもりキック";
+move4.innerText="まもる";
+
+}
+
+else if(player.name==="ポム子"){
+
+move1.innerText="たいあたり";
+move2.innerText="ジャンプ";
+move3.innerText="へんしんぼうし";
+move4.innerText="まもる";
+
+}
+
+else if(player.name==="ポム子（帽子あり）"){
+
+move1.innerText="ミサイル";
+move2.innerText="ダブルミサイル";
+move3.innerText="ぼうしミサイル";
+move4.innerText="まもる";
+
+}
+
+else if(player.name==="スイカゼリー"){
+
+move1.innerText="ゼリーアタック";
+move2.innerText="ぷるぷる";
+move3.innerText="殻の雨";
+move4.innerText="殻盾";
+
+}
+
+}</div>
 
 <br><br>
 
@@ -361,6 +393,11 @@ document.getElementById("playerHpBar").style.width=
 
 document.getElementById("enemyHpBar").style.width=
 (enemy.hp/enemy.maxHp*100)+"%";
+
+document.getElementById("enemyHpBar").style.width=
+(enemy.hp/enemy.maxHp*100)+"%";
+
+updateMoves();
 }
 
 function attack(){
