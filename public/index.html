@@ -2,51 +2,393 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Pokemon V14 Online</title>
+<title>ぬいぐるみチャンピオンズ</title>
+
+<style>
+
+body{
+    background:#222;
+    color:white;
+    text-align:center;
+    font-family:sans-serif;
+}
+
+h1{
+    font-size:48px;
+}
+
+#bigCard{
+    border:4px solid white;
+    width:500px;
+    margin:auto;
+    padding:20px;
+    background:#333;
+}
+
+#bigCard img{
+    width:250px;
+    image-rendering:pixelated;
+}
+
+#characterList{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:30px;
+}
+
+.charButton{
+    background:#444;
+    border:3px solid white;
+    color:white;
+    padding:10px;
+    cursor:pointer;
+}
+
+.charButton img{
+    width:100px;
+    image-rendering:pixelated;
+}
+
+.charButton:hover{
+    background:#666;
+}
+
+#team{
+    margin-top:30px;
+    font-size:24px;
+}
+
+</style>
+
 </head>
 <body>
 
-<h1>Pokemon V14 Online</h1>
+<h1>ぬいぐるみチャンピオンズ</h1>
 
-<button id="create">ルーム作成</button>
+<div id="bigCard">
+
+<img id="bigImage" src="images/pomu.png">
+
+<h2 id="charName">ポム子</h2>
+
+<p id="charInfo">
+進化できるバランス型
+</p>
+
+</div>
+
+<div id="characterList">
+
+<div class="charButton" onclick="selectChar('chicken')">
+<img src="images/chicken.png">
+<br>
+チキン
+</div>
+
+<div class="charButton" onclick="selectChar('kuu')">
+<img src="images/kuu.png">
+<br>
+くうちゃん
+</div>
+
+<div class="charButton" onclick="selectChar('pomu')">
+<img src="images/pomu.png">
+<br>
+ポム子
+</div>
+
+<div class="charButton" onclick="selectChar('suika')">
+<img src="images/suika.png">
+<br>
+スイカゼリー
+</div>
+
+</div>
+
+<br>
+
+<button onclick="addToTeam()">
+チームに追加
+</button>
+
+<div id="team">
+
+選択チーム
+
+<ul id="teamList"></ul>
+
+</div>
+<br>
+
+<button onclick="startBattle()">
+バトル開始
+</button>
+
+<div id="battle" style="display:none">
+
+<h2>バトル</h2>
+
+<h3 id="enemyName"></h3>
+
+<div style="width:300px;border:2px solid white;margin:auto">
+<div id="enemyHpBar"
+style="height:20px;background:red;width:100%">
+</div>
+</div>
+
+<p id="enemyHp"></p>
+
+<img id="enemyImg" width="180">
 
 <hr>
 
-<input id="roomCode" placeholder="6桁コード">
+<img id="playerImg" width="180">
 
-<button id="join">参加</button>
+<h3 id="playerName"></h3>
 
-<h2 id="status">待機中</h2>
+<div style="width:300px;border:2px solid white;margin:auto">
+<div id="playerHpBar"
+style="height:20px;background:lime;width:100%">
+</div>
+</div>
 
-<script src="/socket.io/socket.io.js"></script>
+<p id="playerHp"></p>
 
+<br>
+
+<button onclick="attack()">
+こうげき
+</button>
+
+<button onclick="specialMove()">
+専用技
+</button>
+
+<p id="log"></p>
+
+</div>
 <script>
-const socket = io();
 
-document.getElementById("create").onclick = () => {
-    socket.emit("createRoom");
+const characters = {
+
+chicken:{
+name:"将来有望なケンタッキーのチキン",
+img:"images/chicken.png",
+info:"コケコッコーで3ターン強化",
+hp:95,
+atk:22
+},
+
+kuu:{
+name:"くうちゃん",
+img:"images/kuu.png",
+info:"おもりキック超高火力",
+hp:90,
+atk:30
+},
+
+pomu:{
+name:"ポム子",
+img:"images/pomu.png",
+info:"へんしんぼうしで進化",
+hp:100,
+atk:18
+},
+
+pomu_hat:{
+name:"ポム子（帽子あり）",
+img:"images/pomu_hat.png",
+info:"ぼうしミサイル",
+hp:130,
+atk:28
+},
+
+suika:{
+name:"スイカゼリー",
+img:"images/suika.png",
+info:"殻の雨・殻盾を使う",
+hp:120,
+atk:15
+}
+
 };
+let current="pomu";
+let team=[];
 
-document.getElementById("join").onclick = () => {
-    const code =
-        document.getElementById("roomCode").value;
+function selectChar(id){
 
-    socket.emit("joinRoom", code);
-};
+current=id;
 
-socket.on("roomCreated", (code) => {
-    document.getElementById("status").innerText =
-        "ルームコード: " + code;
+document.getElementById("bigImage").src=
+characters[id].img;
+
+document.getElementById("charName").innerText=
+characters[id].name;
+
+document.getElementById("charInfo").innerText=
+characters[id].info;
+}
+
+function addToTeam(){
+
+if(team.length>=3){
+
+alert("3体選んでいます");
+
+return;
+}
+
+team.push(current);
+
+drawTeam();
+}
+
+function drawTeam(){
+
+let html="";
+
+team.forEach(c=>{
+
+html+=`<li>${characters[c].name}</li>`;
+
 });
 
-socket.on("battleReady", () => {
-    document.getElementById("status").innerText =
-        "相手が参加しました！";
-});
+document.getElementById("teamList").innerHTML=
+html;
+}
+let player;
+let enemy;
 
-socket.on("errorMessage", (msg) => {
-    alert(msg);
-});
+function startBattle(){
+
+if(team.length!==3){
+
+alert("3体選んでください");
+
+return;
+}
+
+document.getElementById("battle").style.display="block";
+
+player = JSON.parse(
+JSON.stringify(
+characters[team[0]]
+));
+
+enemy = JSON.parse(
+JSON.stringify(
+characters[
+["chicken","kuu","suika"]
+[Math.floor(Math.random()*3)]
+]
+));
+
+player.maxHp=player.hp;
+enemy.maxHp=enemy.hp;
+
+drawBattle();
+}
+
+function drawBattle(){
+
+document.getElementById("playerName").innerText=
+player.name;
+
+document.getElementById("enemyName").innerText=
+enemy.name;
+
+document.getElementById("playerImg").src=
+player.img;
+
+document.getElementById("enemyImg").src=
+enemy.img;
+
+document.getElementById("playerHp").innerText=
+player.hp+" / "+player.maxHp;
+
+document.getElementById("enemyHp").innerText=
+enemy.hp+" / "+enemy.maxHp;
+
+document.getElementById("playerHpBar").style.width=
+(player.hp/player.maxHp*100)+"%";
+
+document.getElementById("enemyHpBar").style.width=
+(enemy.hp/enemy.maxHp*100)+"%";
+}
+
+function attack(){
+
+enemy.hp -= player.atk;
+
+if(enemy.hp<0) enemy.hp=0;
+
+document.getElementById("log").innerText=
+player.name+"の攻撃！";
+
+if(enemy.hp<=0){
+
+alert("勝利！");
+
+}
+
+drawBattle();
+}
+
+function specialMove(){
+
+if(player.name==="ポム子"){
+
+player=
+JSON.parse(
+JSON.stringify(
+characters.pomu_hat
+));
+
+player.maxHp=player.hp;
+
+document.getElementById("log").innerText=
+"ポム子は進化した！";
+
+drawBattle();
+
+return;
+}
+
+if(player.name==="将来有望なケンタッキーのチキン"){
+
+enemy.hp-=45;
+
+}
+
+else if(player.name==="くうちゃん"){
+
+enemy.hp-=70;
+
+}
+
+else if(player.name==="スイカゼリー"){
+
+player.hp+=30;
+
+if(player.hp>player.maxHp)
+player.hp=player.maxHp;
+
+enemy.hp-=20;
+
+}
+
+if(enemy.hp<0)
+enemy.hp=0;
+
+if(enemy.hp<=0){
+
+alert("勝利！");
+
+}
+
+drawBattle();
+}
 </script>
 
 </body>
