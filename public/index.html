@@ -424,10 +424,18 @@ return;
 }
 else if(player.name==="将来有望なケンタッキーのチキン"){
 
-enemy.hp-=45;
+buffTurns=3;
+
+document.getElementById("log").innerText=
+"コケコッコー！3ターン強化！";
+
+drawBattle();
+
+enemyTurn();
+
+return;
 
 }
-
 else if(player.name==="くうちゃん"){
 
 enemy.hp-=70;
@@ -593,37 +601,31 @@ player.name+"登場！";
 enemyTurn();
 
 }
-function useMove1(){
+let damage=20;
 
-enemy.hp-=20;
+if(buffTurns>0){
 
-drawBattle();
-
-if(enemy.hp<=0){
-
-nextEnemy();
-
-return;
+damage*=2;
+buffTurns--;
 
 }
+
+enemy.hp-=damage;
 
 enemyTurn();
 
 }
 
-function useMove2(){
+let damage=25;
 
-enemy.hp-=35;
+if(buffTurns>0){
 
-drawBattle();
-
-if(enemy.hp<=0){
-
-nextEnemy();
-
-return;
+damage*=2;
+buffTurns--;
 
 }
+
+enemy.hp-=damage;
 
 enemyTurn();
 
