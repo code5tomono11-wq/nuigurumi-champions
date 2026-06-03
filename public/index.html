@@ -401,6 +401,8 @@ function specialMove(){
 
 if(player.name==="ポム子"){
 
+let oldHp=player.hp;
+
 player=
 JSON.parse(
 JSON.stringify(
@@ -408,6 +410,10 @@ characters.pomu_hat
 ));
 
 player.maxHp=player.hp;
+player.hp=oldHp;
+
+if(player.hp>player.maxHp)
+player.hp=player.maxHp;
 
 document.getElementById("log").innerText=
 "ポム子は進化した！";
@@ -416,7 +422,6 @@ drawBattle();
 
 return;
 }
-
 else if(player.name==="将来有望なケンタッキーのチキン"){
 
 enemy.hp-=45;
