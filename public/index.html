@@ -288,6 +288,8 @@ let enemyTeam=[];
 
 let enemyIndex=0;
 
+let teamData=[];
+
 function startBattle(){
 
 if(team.length!==3){
@@ -299,10 +301,23 @@ return;
 
 document.getElementById("battle").style.display="block";
 currentIndex=0;
-player = JSON.parse(
+teamData=[];
+
+team.forEach(c=>{
+
+let p=
+JSON.parse(
 JSON.stringify(
-characters[team[0]]
+characters[c]
 ));
+
+p.maxHp=p.hp;
+
+teamData.push(p);
+
+});
+
+player=teamData[0];
 
 enemyTeam=["chicken","kuu","suika"];
 
@@ -387,12 +402,7 @@ function specialMove(){
 if(player.name==="ポム子"){
 
 player=
-JSON.parse(
-JSON.stringify(
-characters.pomu_hat
-));
-
-player.maxHp=player.hp;
+teamData[currentIndex];
 
 document.getElementById("log").innerText=
 "ポム子は進化した！";
@@ -521,8 +531,29 @@ enemy.name+"の攻撃！";
 
 drawBattle();
 
+if(player.hp<=0){
+
+if(currentIndex<teamData.length-1){
+
+currentIndex++;
+
+player=teamData[currentIndex];
+
+document.getElementById("log").innerText=
+player.name+"登場！";
+
+drawBattle();
+
 }
-function switchCharacter(){
+else{
+
+alert("敗北...");
+
+}
+
+}
+
+}function switchCharacter(){
 
 if(currentIndex>=team.length-1){
 
