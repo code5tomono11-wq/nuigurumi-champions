@@ -169,7 +169,7 @@ style="height:20px;background:lime;width:100%">
 
 </div>
 <script>
-
+let skipTurn=false;
 const characters = {
 
 chicken:{
@@ -259,7 +259,7 @@ html;
 }
 let player;
 let enemy;
-
+let skipTurn=false;
 function startBattle(){
 
 if(team.length!==3){
@@ -319,22 +319,38 @@ document.getElementById("enemyHpBar").style.width=
 
 function attack(){
 
+if(skipTurn){
+
+skipTurn=false;
+
+document.getElementById("log").innerText=
+"くうちゃんは休んでいる！";
+
+enemyTurn();
+
+return;
+}
+
 enemy.hp -= player.atk;
 
-if(enemy.hp<0) enemy.hp=0;
+if(enemy.hp<0)
+enemy.hp=0;
 
 document.getElementById("log").innerText=
 player.name+"の攻撃！";
+
+drawBattle();
 
 if(enemy.hp<=0){
 
 alert("勝利！");
 
+return;
+
 }
 
-drawBattle();
+enemyTurn();
 }
-
 function specialMove(){
 
 if(player.name==="ポム子"){
@@ -365,8 +381,9 @@ else if(player.name==="くうちゃん"){
 
 enemy.hp-=70;
 
-}
+skipTurn=true;
 
+}
 else if(player.name==="スイカゼリー"){
 
 player.hp+=30;
@@ -388,6 +405,31 @@ alert("勝利！");
 }
 
 drawBattle();
+}
+function enemyTurn(){
+
+if(enemy.hp<=0) return;
+
+setTimeout(()=>{
+
+player.hp-=enemy.atk;
+
+if(player.hp<0)
+player.hp=0;
+
+document.getElementById("log").innerText=
+enemy.name+"の攻撃！";
+
+drawBattle();
+
+if(player.hp<=0){
+
+alert("負けた！");
+
+}
+
+},1000);
+
 }
 </script>
 
