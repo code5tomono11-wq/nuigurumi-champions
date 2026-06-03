@@ -282,7 +282,7 @@ html;
 let player;
 let enemy;
 
-let skipTurn=false;
+let skipTurn=false
 
 let currentIndex=0;
 
@@ -344,9 +344,9 @@ document.getElementById("playerHpBar").style.width=
 document.getElementById("enemyHpBar").style.width=
 (enemy.hp/enemy.maxHp*100)+"%";
 }
-updateMoves();
-function attack(){
 
+function attack(){
+updateMoves();
 if(skipTurn){
 
 skipTurn=false;
