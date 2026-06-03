@@ -324,6 +324,8 @@ let teamData=[];
 
 function startBattle(){
 
+let buffTurns=0;
+
 if(team.length!==3){
 
 alert("3体選んでください");
@@ -638,36 +640,45 @@ player.name+"登場！";
 enemyTurn();
 
 }
+function useMove1(){
+
 let damage=20;
 
-if(buffTurns>0){
+enemy.hp-=damage;
 
-damage*=2;
-buffTurns--;
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+
+return;
 
 }
-
-enemy.hp-=damage;
 
 enemyTurn();
 
 }
 
-let damage=25;
+function useMove2(){
 
-if(buffTurns>0){
-
-damage*=2;
-buffTurns--;
-
-}
+let damage=35;
 
 enemy.hp-=damage;
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+
+return;
+
+}
 
 enemyTurn();
 
 }
-
 function useMove3(){
 
 specialMove();
