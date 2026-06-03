@@ -287,6 +287,10 @@ let currentIndex=0;
 
 let shieldTurns=0;
 
+let enemyTeam=[];
+
+let enemyIndex=0;
+
 function startBattle(){
 
 if(team.length!==3){
@@ -303,14 +307,17 @@ JSON.stringify(
 characters[team[0]]
 ));
 
-enemy = JSON.parse(
+enemyTeam=["chicken","kuu","suika"];
+
+enemyIndex=0;
+
+enemy=
+JSON.parse(
 JSON.stringify(
 characters[
-["chicken","kuu","suika"]
-[Math.floor(Math.random()*3)]
+enemyTeam[enemyIndex]
 ]
 ));
-
 player.maxHp=player.hp;
 enemy.maxHp=enemy.hp;
 
@@ -370,12 +377,11 @@ drawBattle();
 
 if(enemy.hp<=0){
 
-alert("勝利！");
+nextEnemy();
 
 return;
 
 }
-
 enemyTurn();
 }
 function specialMove(){
@@ -427,11 +433,26 @@ enemy.hp=0;
 
 if(enemy.hp<=0){
 
+nextEnemy();
+
+return;
+
+}
+drawBattle();
+if(enemy.hp<0)
+enemy.hp=0;
+
+drawBattle();
+
+if(enemy.hp<=0){
+
 alert("勝利！");
+
+return;
 
 }
 
-drawBattle();
+enemyTurn();
 }
 function move1(){
 
@@ -558,6 +579,34 @@ alert("負けた！");
 
 }
 },1000);
+
+}
+function nextEnemy(){
+
+enemyIndex++;
+
+if(enemyIndex>=enemyTeam.length){
+
+alert("勝利！！");
+
+return;
+
+}
+
+enemy=
+JSON.parse(
+JSON.stringify(
+characters[
+enemyTeam[enemyIndex]
+]
+));
+
+enemy.maxHp=enemy.hp;
+
+document.getElementById("log").innerText=
+enemy.name+"登場！";
+
+drawBattle();
 
 }
 function quickAttack(){
