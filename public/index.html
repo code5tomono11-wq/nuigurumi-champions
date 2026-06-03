@@ -367,6 +367,50 @@ document.getElementById("enemyHpBar").style.width=
 document.getElementById("enemyHpBar").style.width=
 (enemy.hp/enemy.maxHp*100)+"%";
 
+let playerPercent=
+player.hp/player.maxHp*100;
+
+if(playerPercent>50){
+
+document.getElementById("playerHpBar").style.background=
+"lime";
+
+}
+else if(playerPercent>20){
+
+document.getElementById("playerHpBar").style.background=
+"yellow";
+
+}
+else{
+
+document.getElementById("playerHpBar").style.background=
+"red";
+
+}
+
+let enemyPercent=
+enemy.hp/enemy.maxHp*100;
+
+if(enemyPercent>50){
+
+document.getElementById("enemyHpBar").style.background=
+"lime";
+
+}
+else if(enemyPercent>20){
+
+document.getElementById("enemyHpBar").style.background=
+"yellow";
+
+}
+else{
+
+document.getElementById("enemyHpBar").style.background=
+"red";
+
+}
+
 updateMoves();
 }
 
