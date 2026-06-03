@@ -717,6 +717,14 @@ function useMove1(){
 
 let damage=20;
 
+if(buffTurns>0){
+
+damage*=2;
+
+buffTurns--;
+
+}
+
 enemy.hp-=damage;
 
 drawBattle();
@@ -727,18 +735,11 @@ nextEnemy();
 
 return;
 
-let damage=20;
-
-if(buffTurns>0){
-
-damage*=2;
-
-buffTurns--;
-
 }
 
-}
+enemyTurn();
 
+}
 enemyTurn();
 
 }
@@ -747,6 +748,14 @@ function useMove2(){
 
 let damage=35;
 
+if(buffTurns>0){
+
+damage*=2;
+
+buffTurns--;
+
+}
+
 enemy.hp-=damage;
 
 drawBattle();
@@ -757,15 +766,9 @@ nextEnemy();
 
 return;
 
-let damage=20;
-
-if(buffTurns>0){
-
-damage*=2;
-
-buffTurns--;
-
 }
+
+enemyTurn();
 
 }
 
