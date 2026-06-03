@@ -353,18 +353,16 @@ document.getElementById("enemyHpBar").style.width=
 
 function attack(){
 updateMoves();
-if(skipTurn){
+else if(player.name==="くうちゃん"){
 
-skipTurn=false;
+enemy.hp-=70;
+
+skipTurn=true;
 
 document.getElementById("log").innerText=
-"くうちゃんは休んでいる！";
+"おもりキック！次のターン休み！";
 
-enemyTurn();
-
-return;
 }
-
 enemy.hp -= player.atk;
 
 if(enemy.hp<0)
