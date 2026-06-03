@@ -300,6 +300,8 @@ let buffTurns=0;
 
 let enemyBuffTurns=0;
 
+let playerPoisonTurns=0;
+
 if(team.length!==3){
 
 alert("3体選んでください");
@@ -346,8 +348,16 @@ drawBattle();
 
 function drawBattle(){
 
+let playerDisplayName=player.name;
+
+if(playerPoisonTurns>0){
+
+playerDisplayName+=" ☠";
+
+}
+
 document.getElementById("playerName").innerText=
-player.name;
+playerDisplayName;
 
 if(poisonTurns>0){
 
@@ -632,6 +642,30 @@ enemyTurn();
 }
 function enemyTurn(){
 
+if(playerPoisonTurns>0){
+
+player.hp-=5;
+
+playerPoisonTurns--;
+
+if(player.hp<0)
+player.hp=0;
+
+document.getElementById("log").innerText=
+"自分は毒ダメージを受けた！";
+
+drawBattle();
+
+if(player.hp<=0){
+
+alert("敗北...");
+
+return;
+
+}
+
+}
+
 let damage=enemy.atk;
 
 if(enemyBuffTurns>0){
@@ -709,6 +743,18 @@ return;
 
 }
 
+if(enemy.name==="スイカゼリー" && move===1){
+
+playerPoisonTurns=3;
+
+document.getElementById("log").innerText=
+"敵スイカの殻の雨！";
+
+drawBattle();
+
+return;
+
+}
 
 
 let damage=enemy.atk;
@@ -787,6 +833,16 @@ function useMove1(){
 
 let damage=20;
 
+let critical=false;
+
+if(Math.random()<0.2){
+
+damage*=2;
+
+critical=true;
+
+}
+
 if(buffTurns>0){
 
 damage*=2;
@@ -796,6 +852,19 @@ buffTurns--;
 }
 
 enemy.hp-=damage;
+
+if(critical){
+
+document.getElementById("log").innerText=
+"クリティカル！ "+damage+"ダメージ！";
+
+}
+else{
+
+document.getElementById("log").innerText=
+damage+"ダメージ！";
+
+}
 
 drawBattle();
 
@@ -816,6 +885,16 @@ function useMove2(){
 
 let damage=35;
 
+let critical=false;
+
+if(Math.random()<0.2){
+
+damage*=2;
+
+critical=true;
+
+}
+
 if(buffTurns>0){
 
 damage*=2;
@@ -825,6 +904,19 @@ buffTurns--;
 }
 
 enemy.hp-=damage;
+
+if(critical){
+
+document.getElementById("log").innerText=
+"クリティカル！ "+damage+"ダメージ！";
+
+}
+else{
+
+document.getElementById("log").innerText=
+damage+"ダメージ！";
+
+}
 
 drawBattle();
 
