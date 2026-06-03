@@ -292,6 +292,8 @@ let teamData=[];
 
 let poisonTurns=0;
 
+let buffTurns=0;
+
 function startBattle(){
 
 let buffTurns=0;
@@ -725,6 +727,16 @@ nextEnemy();
 
 return;
 
+let damage=20;
+
+if(buffTurns>0){
+
+damage*=2;
+
+buffTurns--;
+
+}
+
 }
 
 enemyTurn();
@@ -744,6 +756,16 @@ if(enemy.hp<=0){
 nextEnemy();
 
 return;
+
+let damage=20;
+
+if(buffTurns>0){
+
+damage*=2;
+
+buffTurns--;
+
+}
 
 }
 
