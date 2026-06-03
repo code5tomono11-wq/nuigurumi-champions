@@ -157,15 +157,37 @@ style="height:20px;background:lime;width:100%">
 
 <br>
 
-<button onclick="attack()">
-こうげき
+<<div id="moves">
+
+<div id="moves">
+
+<button onclick="move1()" id="move1">
+技1
 </button>
 
-<button onclick="specialMove()">
-専用技
+<button onclick="move2()" id="move2">
+技2
+</button>
+
+<button onclick="move3()" id="move3">
+技3
+</button>
+
+<button onclick="move4()" id="move4">
+技4
+</button>
+
+</div>
+
+<br><br>
+
+<button onclick="switchCharacter()">
+交代
 </button>
 
 <p id="log"></p>
+
+</div>
 
 </div>
 <script>
@@ -257,9 +279,15 @@ html+=`<li>${characters[c].name}</li>`;
 document.getElementById("teamList").innerHTML=
 html;
 }
-let player;
+llet player;
 let enemy;
+
 let skipTurn=false;
+
+let currentIndex=0;
+
+let shieldTurns=0;
+
 function startBattle(){
 
 if(team.length!==3){
@@ -270,7 +298,7 @@ return;
 }
 
 document.getElementById("battle").style.display="block";
-
+currentIndex=0;
 player = JSON.parse(
 JSON.stringify(
 characters[team[0]]
@@ -316,7 +344,7 @@ document.getElementById("playerHpBar").style.width=
 document.getElementById("enemyHpBar").style.width=
 (enemy.hp/enemy.maxHp*100)+"%";
 }
-
+updateMoves();
 function attack(){
 
 if(skipTurn){
@@ -406,29 +434,282 @@ alert("勝利！");
 
 drawBattle();
 }
+function move1(){
+
+enemy.hp-=20;
+
+document.getElementById("log").innerText=
+"攻撃！";
+
+drawBattle();
+
+enemyTurn();
+
+}
+
+function move2(){
+
+enemy.hp-=35;
+
+document.getElementById("log").innerText=
+"強攻撃！";
+
+drawBattle();
+
+enemyTurn();
+
+}
+
+function move3(){
+
+specialMove();
+
+}
+
+function move4(){
+
+if(player.name==="スイカゼリー"){
+
+shieldTurns=3;
+
+document.getElementById("log").innerText=
+"スイカの殻盾！";
+
+}
+else{
+
+document.getElementById("log").innerText=
+"まもる！";
+
+}
+
+enemyTurn();
+
+}
 function enemyTurn(){
 
 if(enemy.hp<=0) return;
 
 setTimeout(()=>{
 
-player.hp-=enemy.atk;
+let move=Math.floor(Math.random()*3);
 
-if(player.hp<0)
-player.hp=0;
+if(move===0){
+
+player.hp-=enemy.atk;
 
 document.getElementById("log").innerText=
 enemy.name+"の攻撃！";
+
+}
+
+else if(move===1){
+
+player.hp-=enemy.atk+15;
+
+document.getElementById("log").innerText=
+enemy.name+"の強攻撃！";
+
+}
+
+else{
+
+enemy.hp+=20;
+
+if(enemy.hp>enemy.maxHp)
+enemy.hp=enemy.maxHp;
+
+document.getElementById("log").innerText=
+enemy.name+"は回復した！";
+
+}
+
+if(player.hp<0)
+player.hp=0;
 
 drawBattle();
 
 if(player.hp<=0){
 
+if(currentIndex<team.length-1){
+
+currentIndex++;
+
+player=
+JSON.parse(
+JSON.stringify(
+characters[
+team[currentIndex]
+]
+));
+
+player.maxHp=player.hp;
+
+document.getElementById("log").innerText=
+player.name+"登場！";
+
+drawBattle();
+
+}
+else{
+
 alert("負けた！");
 
 }
 
+}
 },1000);
+
+}
+function quickAttack(){
+
+enemy.hp-=10;
+
+document.getElementById("log").innerText=
+"はやうち！";
+
+drawBattle();
+
+enemyTurn();
+}
+
+function healMove(){
+
+player.hp+=20;
+
+if(player.hp>player.maxHp)
+player.hp=player.maxHp;
+
+document.getElementById("log").innerText=
+"回復した！";
+
+drawBattle();
+
+enemyTurn();
+}
+function updateMoves(){
+
+if(player.name==="将来有望なケンタッキーのチキン"){
+
+document.getElementById("move1").innerText="つつく";
+document.getElementById("move2").innerText="はばたく";
+document.getElementById("move3").innerText="コケコッコー";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="くうちゃん"){
+
+document.getElementById("move1").innerText="キック";
+document.getElementById("move2").innerText="ダッシュキック";
+document.getElementById("move3").innerText="おもりキック";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="ポム子"){
+
+document.getElementById("move1").innerText="たいあたり";
+document.getElementById("move2").innerText="ジャンプ";
+document.getElementById("move3").innerText="へんしんぼうし";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="ポム子（帽子あり）"){
+
+document.getElementById("move1").innerText="ミサイル";
+document.getElementById("move2").innerText="ダブルミサイル";
+document.getElementById("move3").innerText="ぼうしミサイル";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="スイカゼリー"){
+
+document.getElementById("move1").innerText="ゼリーアタック";
+document.getElementById("move2").innerText="ぷるぷる";
+document.getElementById("move3").innerText="殻の雨";
+document.getElementById("move4").innerText="殻盾";
+
+}
+
+}
+function updateMoves(){
+
+if(player.name==="将来有望なケンタッキーのチキン"){
+
+document.getElementById("move1").innerText="つつく";
+document.getElementById("move2").innerText="はばたく";
+document.getElementById("move3").innerText="コケコッコー";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="くうちゃん"){
+
+document.getElementById("move1").innerText="キック";
+document.getElementById("move2").innerText="ダッシュキック";
+document.getElementById("move3").innerText="おもりキック";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="ポム子"){
+
+document.getElementById("move1").innerText="たいあたり";
+document.getElementById("move2").innerText="ジャンプ";
+document.getElementById("move3").innerText="へんしんぼうし";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="ポム子（帽子あり）"){
+
+document.getElementById("move1").innerText="ミサイル";
+document.getElementById("move2").innerText="ダブルミサイル";
+document.getElementById("move3").innerText="ぼうしミサイル";
+document.getElementById("move4").innerText="まもる";
+
+}
+
+else if(player.name==="スイカゼリー"){
+
+document.getElementById("move1").innerText="ゼリーアタック";
+document.getElementById("move2").innerText="ぷるぷる";
+document.getElementById("move3").innerText="殻の雨";
+document.getElementById("move4").innerText="殻盾";
+
+}
+
+}
+function switchCharacter(){
+
+if(currentIndex>=team.length-1){
+
+alert("これ以上交代できない");
+
+return;
+}
+
+currentIndex++;
+
+player=
+JSON.parse(
+JSON.stringify(
+characters[
+team[currentIndex]
+]
+));
+
+player.maxHp=player.hp;
+
+drawBattle();
+
+document.getElementById("log").innerText=
+player.name+"登場！";
+
+enemyTurn();
 
 }
 </script>
