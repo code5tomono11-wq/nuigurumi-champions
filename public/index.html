@@ -408,7 +408,7 @@ drawBattle();
 return;
 }
 
-if(player.name==="将来有望なケンタッキーのチキン"){
+else if(player.name==="将来有望なケンタッキーのチキン"){
 
 enemy.hp-=45;
 
@@ -420,7 +420,11 @@ enemy.hp-=70;
 
 skipTurn=true;
 
+document.getElementById("log").innerText=
+"おもりキック！次のターン休み！";
+
 }
+
 else if(player.name==="スイカゼリー"){
 
 player.hp+=30;
@@ -435,17 +439,6 @@ enemy.hp-=20;
 if(enemy.hp<0)
 enemy.hp=0;
 
-if(enemy.hp<=0){
-
-nextEnemy();
-
-return;
-
-}
-drawBattle();
-if(enemy.hp<0)
-enemy.hp=0;
-
 drawBattle();
 
 if(enemy.hp<=0){
@@ -455,136 +448,10 @@ nextEnemy();
 return;
 
 }
-enemyTurn();
-}
-function move1(){
-
-enemy.hp-=20;
-
-document.getElementById("log").innerText=
-"攻撃！";
-
-drawBattle();
 
 enemyTurn();
 
-}
-
-function move2(){
-
-enemy.hp-=35;
-
-document.getElementById("log").innerText=
-"強攻撃！";
-
-drawBattle();
-
-enemyTurn();
-
-}
-
-function move3(){
-
-specialMove();
-
-}
-
-function move4(){
-
-if(player.name==="スイカゼリー"){
-
-shieldTurns=3;
-
-document.getElementById("log").innerText=
-"スイカの殻盾！";
-
-}
-else{
-
-document.getElementById("log").innerText=
-"まもる！";
-
-}
-
-enemyTurn();
-
-}
-function enemyTurn(){
-
-if(enemy.hp<=0) return;
-
-setTimeout(()=>{
-
-let move=Math.floor(Math.random()*3);
-
-if(move===0){
-
-player.hp-=enemy.atk;
-
-document.getElementById("log").innerText=
-enemy.name+"の攻撃！";
-
-}
-
-else if(move===1){
-
-player.hp-=enemy.atk+15;
-
-document.getElementById("log").innerText=
-enemy.name+"の強攻撃！";
-
-}
-
-else{
-
-enemy.hp+=20;
-
-if(enemy.hp>enemy.maxHp)
-enemy.hp=enemy.maxHp;
-
-document.getElementById("log").innerText=
-enemy.name+"は回復した！";
-
-}
-
-if(player.hp<0)
-player.hp=0;
-
-drawBattle();
-
-if(player.hp<=0){
-
-if(currentIndex<team.length-1){
-
-currentIndex++;
-
-player=
-JSON.parse(
-JSON.stringify(
-characters[
-team[currentIndex]
-]
-));
-
-player.maxHp=player.hp;
-
-document.getElementById("log").innerText=
-player.name+"登場！";
-
-drawBattle();
-
-}
-else{
-
-alert("負けた！");
-
-}
-
-}
-},1000);
-
-}
-function nextEnemy(){
+}function nextEnemy(){
 
 enemyIndex++;
 
