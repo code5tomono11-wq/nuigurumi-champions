@@ -402,7 +402,12 @@ function specialMove(){
 if(player.name==="ポム子"){
 
 player=
-teamData[currentIndex];
+JSON.parse(
+JSON.stringify(
+characters.pomu_hat
+));
+
+player.maxHp=player.hp;
 
 document.getElementById("log").innerText=
 "ポム子は進化した！";
