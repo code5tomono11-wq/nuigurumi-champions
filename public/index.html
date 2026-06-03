@@ -290,6 +290,8 @@ let enemyIndex=0;
 
 let teamData=[];
 
+let poisonTurns=0;
+
 function startBattle(){
 
 let buffTurns=0;
@@ -507,6 +509,10 @@ player.hp=player.maxHp;
 
 enemy.hp-=20;
 
+let poisonTurns=0;
+
+document.getElementById("log").innerText=
+"殻の雨！相手は毒になった！";
 }
 
 if(enemy.hp<0)
@@ -579,6 +585,30 @@ drawBattle();
 enemyTurn();
 }
 function enemyTurn(){
+
+if(poisonTurns>0){
+
+enemy.hp-=5;
+
+poisonTurns--;
+
+if(enemy.hp<0)
+enemy.hp=0;
+
+document.getElementById("log").innerText=
+"毒ダメージ！";
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+
+return;
+
+}
+
+}
 
 let damage=enemy.atk;
 
