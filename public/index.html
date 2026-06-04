@@ -196,6 +196,7 @@ const characters = {
 
 chicken:{
 name:"将来有望なケンタッキーのチキン",
+type:"とり",
 img:"images/chicken.png",
 info:"コケコッコーで3ターン強化",
 hp:95,
@@ -204,6 +205,7 @@ atk:22
 
 kuu:{
 name:"くうちゃん",
+type:"けもの",
 img:"images/kuu.png",
 info:"おもりキック超高火力",
 hp:90,
@@ -212,6 +214,7 @@ atk:30
 
 pomu:{
 name:"ポム子",
+type:"まほう",
 img:"images/pomu.png",
 info:"へんしんぼうしで進化",
 hp:100,
@@ -220,6 +223,7 @@ atk:18
 
 pomu_hat:{
 name:"ポム子（帽子あり）",
+type:"まほう",
 img:"images/pomu_hat.png",
 info:"ぼうしミサイル",
 hp:130,
@@ -228,35 +232,12 @@ atk:28
 
 suika:{
 name:"スイカゼリー",
+type:"みず",
 img:"images/suika.png",
 info:"殻の雨・殻盾を使う",
 hp:120,
 atk:15
-},
-
-chicken:{
-name:"将来有望なケンタッキーのチキン",
-type:"とり",
-...
-},
-
-kuu:{
-name:"くうちゃん",
-type:"けもの",
-...
-},
-
-pomu:{
-name:"ポム子",
-type:"まほう",
-...
-},
-
-suika:{
-name:"スイカゼリー",
-type:"みず",
-...
-},
+}
 
 };
 let current="pomu";
@@ -341,7 +322,6 @@ suika:1
 
 function startBattle(){
 
-level=1;
 
 if(team.length!==3){
 
@@ -562,7 +542,19 @@ if(player.name==="ポム子"){
 
 let oldHp=player.hp;
 
-player=teamData[currentIndex];
+let oldHp=player.hp;
+
+player=
+JSON.parse(
+JSON.stringify(
+characters.pomu_hat
+));
+
+player.maxHp=player.hp;
+player.hp=oldHp;
+
+if(player.hp>player.maxHp)
+player.hp=player.maxHp;
 
 player.maxHp=player.hp;
 player.hp=oldHp;
@@ -644,7 +636,7 @@ characters[currentChar].name+
 levels[currentChar]+
 "になった！";
 
-level++;
+level=levels[currentChar];
 
 player.maxHp+=10;
 player.hp+=10;
