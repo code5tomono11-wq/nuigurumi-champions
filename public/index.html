@@ -129,6 +129,10 @@ h1{
 
 <h2>バトル</h2>
 
+<h3 id="levelText">
+レベル 1
+</h3>
+
 <h3 id="enemyName"></h3>
 
 <div style="width:300px;border:2px solid white;margin:auto">
@@ -268,12 +272,15 @@ let html="";
 
 team.forEach(c=>{
 
-html+=`<li>${characters[c].name}</li>`;
+html+=
+`<li>${characters[c].name}
+ Lv.${levels[c]}</li>`;
 
 });
 
 document.getElementById("teamList").innerHTML=
 html;
+
 }
 let player;
 let enemy;
@@ -299,8 +306,18 @@ let enemyBuffTurns=0;
 
 let playerPoisonTurns=0;
 
+let level=1;
+
+let levels={
+chicken:1,
+kuu:1,
+pomu:1,
+suika:1
+};
 
 function startBattle(){
+
+level=1;
 
 if(team.length!==3){
 
@@ -321,6 +338,12 @@ JSON.stringify(
 characters[c]
 ));
 
+let lv=levels[c];
+
+p.hp+= (lv-1)*10;
+p.atk+= (lv-1)*3;
+
+p.maxHp=p.hp;
 p.maxHp=p.hp;
 
 teamData.push(p);
@@ -401,6 +424,9 @@ document.getElementById("enemyName").style.color=
 "white";
 
 }
+
+document.getElementById("levelText").innerText=
+"レベル "+level;
 
 }
 
@@ -584,6 +610,25 @@ enemyTurn();
 
 }function nextEnemy(){
 
+let currentChar=team[currentIndex];
+
+levels[currentChar]++;
+
+document.getElementById("log").innerText=
+characters[currentChar].name+
+" はレベル"+
+levels[currentChar]+
+"になった！";
+
+level++;
+
+player.maxHp+=10;
+player.hp+=10;
+player.atk+=3;
+
+document.getElementById("log").innerText=
+"レベル"+level+"！ HP+10 攻撃+3！";
+
 enemyIndex++;
 
 if(enemyIndex>=enemyTeam.length){
@@ -593,7 +638,6 @@ alert("勝利！！");
 return;
 
 }
-
 enemy=
 JSON.parse(
 JSON.stringify(
