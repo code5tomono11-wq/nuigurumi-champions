@@ -294,13 +294,14 @@ let poisonTurns=0;
 
 let buffTurns=0;
 
-function startBattle(){
-
 let buffTurns=0;
 
 let enemyBuffTurns=0;
 
 let playerPoisonTurns=0;
+
+
+function startBattle(){
 
 if(team.length!==3){
 
@@ -512,11 +513,7 @@ if(player.name==="ポム子"){
 
 let oldHp=player.hp;
 
-player=
-JSON.parse(
-JSON.stringify(
-characters.pomu_hat
-));
+player=teamData[currentIndex];
 
 player.maxHp=player.hp;
 player.hp=oldHp;
@@ -809,13 +806,7 @@ return;
 
 currentIndex++;
 
-player=
-JSON.parse(
-JSON.stringify(
-characters[
-team[currentIndex]
-]
-));
+player=teamData[currentIndex];
 
 player.maxHp=player.hp;
 
