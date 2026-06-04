@@ -234,6 +234,30 @@ hp:120,
 atk:15
 }
 
+chicken:{
+name:"将来有望なケンタッキーのチキン",
+type:"とり",
+...
+},
+
+kuu:{
+name:"くうちゃん",
+type:"けもの",
+...
+},
+
+pomu:{
+name:"ポム子",
+type:"まほう",
+...
+},
+
+suika:{
+name:"スイカゼリー",
+type:"みず",
+...
+},
+
 };
 let current="pomu";
 let team=[];
@@ -883,6 +907,26 @@ buffTurns--;
 
 }
 
+let bonus=
+getTypeBonus(player,enemy);
+
+damage=
+Math.floor(damage*bonus);
+
+if(bonus>1){
+
+document.getElementById("log").innerText=
+"こうかはばつぐんだ！";
+
+}
+
+else if(bonus<1){
+
+document.getElementById("log").innerText=
+"こうかはいまひとつだ...";
+
+}
+
 enemy.hp-=damage;
 
 if(critical){
@@ -932,6 +976,26 @@ if(buffTurns>0){
 damage*=2;
 
 buffTurns--;
+
+}
+
+let bonus=
+getTypeBonus(player,enemy);
+
+damage=
+Math.floor(damage*bonus);
+
+if(bonus>1){
+
+document.getElementById("log").innerText=
+"こうかはばつぐんだ！";
+
+}
+
+else if(bonus<1){
+
+document.getElementById("log").innerText=
+"こうかはいまひとつだ...";
 
 }
 
@@ -990,6 +1054,37 @@ document.getElementById("log").innerText=
 enemyTurn();
 
 }
+
+function getTypeBonus(attacker, defender){
+
+if(attacker.type==="とり" && defender.type==="けもの")
+return 1.5;
+
+if(attacker.type==="けもの" && defender.type==="まほう")
+return 1.5;
+
+if(attacker.type==="まほう" && defender.type==="みず")
+return 1.5;
+
+if(attacker.type==="みず" && defender.type==="とり")
+return 1.5;
+
+if(defender.type==="とり" && attacker.type==="けもの")
+return 0.7;
+
+if(defender.type==="けもの" && attacker.type==="まほう")
+return 0.7;
+
+if(defender.type==="まほう" && attacker.type==="みず")
+return 0.7;
+
+if(defender.type==="みず" && attacker.type==="とり")
+return 0.7;
+
+return 1;
+
+}
+
 function updateMoves(){
 
 if(player.name==="将来有望なケンタッキーのチキン"){
