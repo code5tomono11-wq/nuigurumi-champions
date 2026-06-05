@@ -546,9 +546,7 @@ enemy.hp -= player.atk;
 if(enemy.hp<0)
 enemy.hp=0;
 
-addLog("player.name+"の攻撃！");
-
-drawBattle();
+addLog(player.name+"の攻撃！");drawBattle();
 
 if(enemy.hp<=0){
 
