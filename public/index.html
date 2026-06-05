@@ -830,18 +830,8 @@ drawBattle();
 
 if(player.hp<=0){
 
-if(currentIndex<teamData.length-1){
+showReviveMenu();
 
-currentIndex++;
-
-player=teamData[currentIndex];
-
-addLog(
-player.name+"登場！");
-
-drawBattle();
-
-}
 else{
 
 alert("敗北...");
@@ -1124,6 +1114,82 @@ move3.innerText="殻の雨";
 move4.innerText="殻盾";
 
 }
+
+}
+
+function showSwitchMenu(){
+
+let html="<h3>交代するキャラを選んでください</h3>";
+
+for(let i=0;i<teamData.length;i++){
+
+if(i===currentIndex) continue;
+
+if(teamData[i].hp<=0) continue;
+
+html+=`
+<button onclick="switchTo(${i})">
+${teamData[i].name}
+HP:${teamData[i].hp}
+</button><br><br>
+`;
+
+}
+
+document.getElementById("switchMenu").innerHTML=html;
+
+}
+
+function switchTo(index){
+
+currentIndex=index;
+
+player=teamData[currentIndex];
+
+drawBattle();
+
+addLog(player.name+"に交代した！");
+
+document.getElementById("switchMenu").innerHTML="";
+
+enemyTurn();
+
+}
+
+function showReviveMenu(){
+
+let html="<h3>次に出すキャラを選んでください</h3>";
+
+for(let i=0;i<teamData.length;i++){
+
+if(i===currentIndex) continue;
+
+if(teamData[i].hp<=0) continue;
+
+html+=`
+<button onclick="reviveTo(${i})">
+${teamData[i].name}
+HP:${teamData[i].hp}
+</button><br><br>
+`;
+
+}
+
+document.getElementById("switchMenu").innerHTML=html;
+
+}
+
+function reviveTo(index){
+
+currentIndex=index;
+
+player=teamData[currentIndex];
+
+drawBattle();
+
+addLog(player.name+"登場！");
+
+document.getElementById("switchMenu").innerHTML="";
 
 }
 </script>
