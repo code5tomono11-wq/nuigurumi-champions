@@ -379,7 +379,12 @@ enemyTeam[enemyIndex]
 ]
 ));
 player.maxHp=player.hp;
+
 enemy.maxHp=enemy.hp;
+
+drawBattle();
+
+}
 
 function addLog(text){
 
@@ -390,16 +395,6 @@ document.getElementById("log").innerHTML;
 }
 
 function drawBattle(){
-
-drawBattle();
-}
-
-
-document.getElementById("log").innerHTML=
-text+"<br>"+
-document.getElementById("log").innerHTML;
-
-}
 
 let playerDisplayName=player.name;
 
@@ -496,28 +491,7 @@ document.getElementById("playerHpBar").style.background=
 "yellow";
 
 }
-else{
 
-document.getElementById("playerHpBar").style.background=
-"red";
-
-}
-
-let enemyPercent=
-enemy.hp/enemy.maxHp*100;
-
-if(enemyPercent>50){
-
-document.getElementById("enemyHpBar").style.background=
-"lime";
-
-}
-else if(enemyPercent>20){
-
-document.getElementById("enemyHpBar").style.background=
-"yellow";
-
-}
 else{
 
 document.getElementById("enemyHpBar").style.background=
@@ -526,6 +500,16 @@ document.getElementById("enemyHpBar").style.background=
 }
 
 updateMoves();
+
+}
+
+function addLog(text){
+
+document.getElementById("log").innerHTML=
+text+"<br>"+
+document.getElementById("log").innerHTML;
+
+}
 
 
 function attack(){
@@ -956,6 +940,18 @@ text+="クリティカル！\n";
 text+=damage+"ダメージ！";
 
 document.getElementById("log").innerText=text;
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+return;
+
+}
+
+enemyTurn();
+
 }
 
 
