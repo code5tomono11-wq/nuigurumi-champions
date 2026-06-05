@@ -381,12 +381,19 @@ enemyTeam[enemyIndex]
 player.maxHp=player.hp;
 enemy.maxHp=enemy.hp;
 
-drawBattle();
+function addLog(text){
+
+document.getElementById("log").innerHTML=
+text+"<br>"+
+document.getElementById("log").innerHTML;
+
 }
 
 function drawBattle(){
 
-function addLog(text){
+drawBattle();
+}
+
 
 document.getElementById("log").innerHTML=
 text+"<br>"+
@@ -976,43 +983,36 @@ buffTurns--;
 
 }
 
+let bonus=
+getTypeBonus(player,enemy);
+
+damage=
+Math.floor(damage*bonus);
+
+enemy.hp-=damage;
+
 let text="";
 
 if(bonus>1){
 
-text+="こうかはばつぐんだ！\n";
+text+="こうかはばつぐんだ！ ";
 
 }
 else if(bonus<1){
 
-text+="こうかはいまひとつだ...\n";
+text+="こうかはいまひとつだ... ";
 
 }
 
 if(critical){
 
-text+="クリティカル！\n";
+text+="クリティカル！ ";
 
 }
 
 text+=damage+"ダメージ！";
 
-addLog(
-
-enemy.hp-=damage);
-
-if(critical){
-
-addLog(
-"クリティカル！ "+damage+"ダメージ！");
-
-}
-else{
-
-addLog(
-damage+"ダメージ！");
-
-}
+addLog(text);
 
 drawBattle();
 
@@ -1027,7 +1027,6 @@ return;
 enemyTurn();
 
 }
-
 function useMove3(){
 
 specialMove();
