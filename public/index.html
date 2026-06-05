@@ -182,9 +182,13 @@ style="height:20px;background:lime;width:100%">
 </div>
 <br><br>
 
-<button onclick="switchCharacter()">
+<button onclick="showSwitchMenu()">
 交代
 </button>
+
+<div id="switchMenu"></div>
+
+<div id="switchMenu"></div>
 
 <div id="log"
 style="
@@ -197,8 +201,6 @@ padding:10px;
 text-align:left;
 background:#111;
 ">
-</div>
-
 </div>
 
 </div>
@@ -712,8 +714,24 @@ drawBattle();
 
 if(player.hp<=0){
 
-alert("敗北...");
+let alive=0;
 
+for(let i=0;i<teamData.length;i++){
+
+if(teamData[i].hp>0){
+alive++;
+}
+
+}
+
+if(alive<=0){
+
+alert("敗北...");
+return;
+
+}
+
+showReviveMenu();
 return;
 
 }
@@ -828,37 +846,11 @@ enemy.name+"の攻撃！");
 
 drawBattle();
 
-if(player.hp<=0){
-
-showReviveMenu();
-
-alert("敗北...");
-
-}
-
 }
 
 function switchCharacter(){
 
-if(currentIndex>=team.length-1){
-
-alert("これ以上交代できない");
-
-return;
-}
-
-currentIndex++;
-
-player=teamData[currentIndex];
-
-player.maxHp=player.hp;
-
-drawBattle();
-
-addLog(
-player.name+"登場！");
-
-enemyTurn();
+showSwitchMenu();
 
 }
 function useMove1(){
