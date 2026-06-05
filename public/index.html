@@ -186,7 +186,18 @@ style="height:20px;background:lime;width:100%">
 交代
 </button>
 
-<p id="log"></p>
+<div id="log"
+style="
+width:500px;
+height:150px;
+overflow-y:auto;
+border:2px solid white;
+margin:auto;
+padding:10px;
+text-align:left;
+background:#111;
+">
+</div>
 
 </div>
 
@@ -375,6 +386,14 @@ drawBattle();
 
 function drawBattle(){
 
+function addLog(text){
+
+document.getElementById("log").innerHTML=
+text+"<br>"+
+document.getElementById("log").innerHTML;
+
+}
+
 let playerDisplayName=player.name;
 
 if(playerPoisonTurns>0){
@@ -508,8 +527,7 @@ if(skipTurn){
 
 skipTurn=false;
 
-document.getElementById("log").innerText=
-"くうちゃんは休んでいる！";
+addLog("くうちゃんは休んでいる！");
 
 enemyTurn();
 
@@ -521,8 +539,7 @@ enemy.hp -= player.atk;
 if(enemy.hp<0)
 enemy.hp=0;
 
-document.getElementById("log").innerText=
-player.name+"の攻撃！";
+addLog("player.name+"の攻撃！");
 
 drawBattle();
 
@@ -560,8 +577,7 @@ player.hp=oldHp;
 if(player.hp>player.maxHp)
 player.hp=player.maxHp;
 
-document.getElementById("log").innerText=
-"ポム子は進化した！";
+addLog("ポム子は進化した！");
 
 drawBattle();
 
@@ -571,8 +587,7 @@ else if(player.name==="将来有望なケンタッキーのチキン"){
 
 buffTurns=3;
 
-document.getElementById("log").innerText=
-"コケコッコー！3ターン強化！";
+addLog("コケコッコー！3ターン強化！")	;
 
 drawBattle();
 
@@ -587,8 +602,7 @@ enemy.hp-=70;
 
 skipTurn=true;
 
-document.getElementById("log").innerText=
-"おもりキック！次のターン休み！";
+addLog("おもりキック！次のターン休み！");
 
 }
 
@@ -603,8 +617,7 @@ enemy.hp-=20;
 
 poisonTurns=3;
 
-document.getElementById("log").innerText=
-"殻の雨！相手は毒になった！";
+addLog("殻の雨！相手は毒になった！");
 }
 
 if(enemy.hp<0)
@@ -628,11 +641,11 @@ let currentChar=team[currentIndex];
 
 levels[currentChar]++;
 
-document.getElementById("log").innerText=
+addLog(
 characters[currentChar].name+
 " はレベル"+
 levels[currentChar]+
-"になった！";
+"になった！");
 
 level=levels[currentChar];
 
@@ -640,8 +653,8 @@ player.maxHp+=10;
 player.hp+=10;
 player.atk+=3;
 
-document.getElementById("log").innerText=
-"レベル"+level+"！ HP+10 攻撃+3！";
+addLog(
+"レベル"+level+"！ HP+10 攻撃+3！");
 
 enemyIndex++;
 
@@ -662,8 +675,8 @@ enemyTeam[enemyIndex]
 
 enemy.maxHp=enemy.hp;
 
-document.getElementById("log").innerText=
-enemy.name+"登場！";
+addLog(
+enemy.name+"登場！");
 
 drawBattle();
 
@@ -672,8 +685,7 @@ function quickAttack(){
 
 enemy.hp-=10;
 
-document.getElementById("log").innerText=
-"はやうち！";
+addLog("はやうち！");
 
 drawBattle();
 
@@ -687,8 +699,8 @@ player.hp+=20;
 if(player.hp>player.maxHp)
 player.hp=player.maxHp;
 
-document.getElementById("log").innerText=
-"回復した！";
+addLog(
+"回復した！");
 
 drawBattle();
 
@@ -705,8 +717,7 @@ playerPoisonTurns--;
 if(player.hp<0)
 player.hp=0;
 
-document.getElementById("log").innerText=
-"自分は毒ダメージを受けた！";
+addLog("自分は毒ダメージを受けた！");
 
 drawBattle();
 
@@ -741,8 +752,7 @@ poisonTurns--;
 if(enemy.hp<0)
 enemy.hp=0;
 
-document.getElementById("log").innerText=
-"毒ダメージ！";
+addLog("毒ダメージ！");
 
 drawBattle();
 
@@ -760,8 +770,8 @@ if(enemy.name==="将来有望なケンタッキーのチキン" && move===0){
 
 enemyBuffTurns=3;
 
-document.getElementById("log").innerText=
-"敵チキンのコケコッコー！";
+addLog(
+"敵チキンのコケコッコー！");
 
 drawBattle();
 
@@ -775,8 +785,8 @@ player.hp-=70;
 if(player.hp<0)
 player.hp=0;
 
-document.getElementById("log").innerText=
-"敵くうちゃんのおもりキック！";
+addLog(
+"敵くうちゃんのおもりキック！");
 
 drawBattle();
 
@@ -788,8 +798,8 @@ if(enemy.name==="スイカゼリー" && move===0){
 
 shieldTurns=2;
 
-document.getElementById("log").innerText=
-"敵スイカの殻盾！";
+addLog(
+"敵スイカの殻盾！");
 
 drawBattle();
 
@@ -801,8 +811,8 @@ if(enemy.name==="スイカゼリー" && move===1){
 
 playerPoisonTurns=3;
 
-document.getElementById("log").innerText=
-"敵スイカの殻の雨！";
+addLog(
+"敵スイカの殻の雨！");
 
 drawBattle();
 
@@ -824,8 +834,8 @@ player.hp-=damage;
 if(player.hp<0)
 player.hp=0;
 
-document.getElementById("log").innerText=
-enemy.name+"の攻撃！";
+addLog(
+enemy.name+"の攻撃！");
 
 drawBattle();
 
@@ -837,8 +847,8 @@ currentIndex++;
 
 player=teamData[currentIndex];
 
-document.getElementById("log").innerText=
-player.name+"登場！";
+addLog(
+player.name+"登場！");
 
 drawBattle();
 
@@ -869,8 +879,8 @@ player.maxHp=player.hp;
 
 drawBattle();
 
-document.getElementById("log").innerText=
-player.name+"登場！";
+addLog(
+player.name+"登場！");
 
 enemyTurn();
 
@@ -905,45 +915,42 @@ Math.floor(damage*bonus);
 
 if(bonus>1){
 
-document.getElementById("log").innerText=
-"こうかはばつぐんだ！";
+addLog(
+"こうかはばつぐんだ！");
 
 }
 
 else if(bonus<1){
 
-document.getElementById("log").innerText=
-"こうかはいまひとつだ...";
+addLog(
+"こうかはいまひとつだ...");
 
 }
 
 enemy.hp-=damage;
 
+let text="";
+
+if(bonus>1){
+
+text+="こうかはばつぐんだ！\n";
+
+}
+else if(bonus<1){
+
+text+="こうかはいまひとつだ...\n";
+
+}
+
 if(critical){
 
-document.getElementById("log").innerText=
-"クリティカル！ "+damage+"ダメージ！";
-
-}
-else{
-
-document.getElementById("log").innerText=
-damage+"ダメージ！";
+text+="クリティカル！\n";
 
 }
 
-drawBattle();
+text+=damage+"ダメージ！";
 
-if(enemy.hp<=0){
-
-nextEnemy();
-
-return;
-
-}
-
-enemyTurn();
-
+document.getElementById("log").innerText=text;
 }
 
 
@@ -969,38 +976,41 @@ buffTurns--;
 
 }
 
-let bonus=
-getTypeBonus(player,enemy);
-
-damage=
-Math.floor(damage*bonus);
+let text="";
 
 if(bonus>1){
 
-document.getElementById("log").innerText=
-"こうかはばつぐんだ！";
+text+="こうかはばつぐんだ！\n";
 
 }
-
 else if(bonus<1){
 
-document.getElementById("log").innerText=
-"こうかはいまひとつだ...";
+text+="こうかはいまひとつだ...\n";
 
 }
-
-enemy.hp-=damage;
 
 if(critical){
 
-document.getElementById("log").innerText=
-"クリティカル！ "+damage+"ダメージ！";
+text+="クリティカル！\n";
+
+}
+
+text+=damage+"ダメージ！";
+
+addLog(
+
+enemy.hp-=damage);
+
+if(critical){
+
+addLog(
+"クリティカル！ "+damage+"ダメージ！");
 
 }
 else{
 
-document.getElementById("log").innerText=
-damage+"ダメージ！";
+addLog(
+damage+"ダメージ！");
 
 }
 
@@ -1030,14 +1040,14 @@ if(player.name==="スイカゼリー"){
 
 shieldTurns=3;
 
-document.getElementById("log").innerText=
-"スイカの殻盾！";
+addLog(
+"スイカの殻盾！");
 
 }
 else{
 
-document.getElementById("log").innerText=
-"まもる！";
+addLog(
+"まもる！");
 
 }
 
