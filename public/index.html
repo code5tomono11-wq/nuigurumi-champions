@@ -524,8 +524,6 @@ document.getElementById("enemyHpBar").style.background=
 
 updateMoves();
 
-drawBattle();
-
 if(firstBattle){
 
 alert(
@@ -797,24 +795,6 @@ return;
 
 }
 
-enemyTurn();
-
-enemy=
-JSON.parse(
-JSON.stringify(
-characters[
-enemyTeam[enemyIndex]
-]
-));
-
-enemy.maxHp=enemy.hp;
-
-addLog(
-enemy.name+"登場！");
-
-drawBattle();
-
-}
 function quickAttack(){
 
 enemy.hp-=10;
