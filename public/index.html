@@ -328,6 +328,16 @@ let playerPoisonTurns=0;
 
 let level=1;
 
+let firstBattle = true;
+
+let tutorial = {
+battle:false,
+level:false,
+evolve:false,
+switch:false,
+poison:false
+};
+
 let exp={
 chicken:0,
 kuu:0,
@@ -514,6 +524,38 @@ document.getElementById("enemyHpBar").style.background=
 
 updateMoves();
 
+drawBattle();
+
+if(firstBattle){
+
+alert(
+"ぬいぐるみチャンピオンズへようこそ！\n\n"+
+"技1: 通常攻撃\n"+
+"技2: 強力攻撃\n"+
+"技3: 必殺技\n"+
+"技4: 防御\n\n"+
+"敵を倒してレベルアップしよう！"
+);
+
+firstBattle = false;
+
+}
+
+drawBattle();
+
+if(!tutorial.battle){
+
+addLog("=== チュートリアル ===");
+addLog("技1: 通常攻撃");
+addLog("技2: 強力攻撃");
+addLog("技3: 必殺技");
+addLog("技4: 防御");
+addLog("交代ボタンで仲間を交代できる");
+addLog("敵を倒してレベルアップしよう！");
+
+tutorial.battle=true;
+}
+
 }
 
 function addLog(text){
@@ -593,6 +635,14 @@ if(enemyIndex>=enemyTeam.length){
 
 }
 
+if(!tutorial.level){
+
+addLog("=== レベルアップ ===");
+addLog("HPと攻撃力が上がる！");
+tutorial.level=true;
+
+}
+
 enemy=
 JSON.parse(
 JSON.stringify(
@@ -626,6 +676,16 @@ player.hp=Math.min(oldHp+30, player.maxHp);
 player.atk=28;
 
 addLog("ポム子は進化した！");
+
+if(!tutorial.evolve){
+
+addLog("=== 進化説明 ===");
+addLog("ポム子だけ進化できる！");
+addLog("進化後は能力と技が変化する！");
+
+tutorial.evolve=true;
+
+}
 
 updateMoves();
 drawBattle();
@@ -924,6 +984,14 @@ return;
 if(enemy.name==="スイカゼリー" && move===1){
 
 playerPoisonTurns=3;
+
+if(!tutorial.poison){
+
+addLog("=== 状態異常 ===");
+addLog("毒になると毎ターンダメージ！");
+tutorial.poison=true;
+
+}
 
 addLog(
 "敵スイカの殻の雨！");
@@ -1252,6 +1320,14 @@ player=teamData[currentIndex];
 drawBattle();
 
 addLog(player.name+"に交代した！");
+
+if(!tutorial.switch){
+
+addLog("=== 交代説明 ===");
+addLog("危なくなったら交代しよう！");
+tutorial.switch=true;
+
+}
 
 document.getElementById("switchMenu").innerHTML="";
 
