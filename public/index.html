@@ -539,8 +539,6 @@ firstBattle = false;
 
 }
 
-drawBattle();
-
 if(!tutorial.battle){
 
 addLog("=== チュートリアル ===");
@@ -783,20 +781,18 @@ addLog("殻の雨！相手は毒になった！");
 
 }
 
-if(enemy.hp<0)
-enemy.hp=0;
-
-drawBattle();
-
 if(enemy.hp<=0){
 
-nextEnemy();
-return;
+    nextEnemy();
+    return;
 
 }
 
-function quickAttack(){
+enemyTurn();
 
+} // ← specialMove終了
+
+function quickAttack(){
 enemy.hp-=10;
 
 addLog("はやうち！");
