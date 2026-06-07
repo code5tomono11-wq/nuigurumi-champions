@@ -301,6 +301,7 @@ html;
 
 }
 let player;
+
 let enemy;
 
 let skipTurn=false;
@@ -319,6 +320,9 @@ let poisonTurns=0;
 
 let buffTurns=0;
 
+let burnTurns=0;
+
+let sleepTurns=0;
 
 let enemyBuffTurns=0;
 
@@ -326,12 +330,30 @@ let playerPoisonTurns=0;
 
 let level=1;
 
+let exp={
+chicken:0,
+kuu:0,
+pomu:0,
+suika:0
+};
+
 let levels={
 chicken:1,
 kuu:1,
 pomu:1,
 suika:1
 };
+
+loadGame();
+
+let levels={
+chicken:1,
+kuu:1,
+pomu:1,
+suika:1
+};
+
+loadGame();
 
 function startBattle(){
 
@@ -546,6 +568,32 @@ enemyTurn();
 }
 function specialMove(){
 
+else if(player.name==="ポム子（帽子あり）"){
+
+let damage=80;
+
+enemy.hp-=damage;
+
+addLog("ぼうしミサイル！");
+addLog(damage+"ダメージ！");
+
+if(enemy.hp<0)
+enemy.hp=0;
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+return;
+
+}
+
+enemyTurn();
+return;
+
+}
+
 if(player.name==="ポム子"){
 
 let oldHp=player.hp;
@@ -569,6 +617,8 @@ if(player.hp>player.maxHp)
 player.hp=player.maxHp;
 
 addLog("ポム子は進化した！");
+
+updateMoves();
 
 drawBattle();
 
@@ -627,6 +677,30 @@ return;
 enemyTurn();
 
 }function nextEnemy(){
+
+while(exp[currentChar]>=levels[currentChar]*10){
+
+exp[currentChar]-=levels[currentChar]*10;
+levels[currentChar]++;
+
+saveGame();
+
+player.maxHp+=10;
+player.hp+=10;
+player.atk+=3;
+
+addLog(
+characters[currentChar].name+
+"はレベル"+
+levels[currentChar]+
+"になった！"
+);
+
+}
+
+exp[currentChar]+=10;
+
+addLog("経験値+10！");
 
 let currentChar=team[currentIndex];
 
@@ -698,6 +772,36 @@ drawBattle();
 enemyTurn();
 }
 function enemyTurn(){
+
+if(sleepTurns>0){
+
+sleepTurns--;
+
+addLog("敵は眠っている！");
+
+return;
+
+}
+
+if(burnTurns>0){
+
+enemy.hp-=8;
+
+burnTurns--;
+
+addLog("やけどダメージ！");
+
+if(enemy.hp<=0){
+
+nextEnemy();
+
+return;
+
+}
+
+}
+
+if(playerPoisonTurns>0){
 
 if(playerPoisonTurns>0){
 
@@ -964,6 +1068,13 @@ Math.floor(damage*bonus);
 
 enemy.hp-=damage;
 
+if(Math.random()<0.3){
+
+burnTurns=3;
+
+addLog("やけどにした！");
+}
+
 let text="";
 
 if(bonus>1){
@@ -1179,6 +1290,29 @@ drawBattle();
 addLog(player.name+"登場！");
 
 document.getElementById("switchMenu").innerHTML="";
+
+}
+
+function saveGame(){
+
+localStorage.setItem(
+"nuiLevel",
+JSON.stringify(levels)
+);
+
+}
+
+function loadGame(){
+
+let data=
+localStorage.getItem("nuiLevel");
+
+if(data){
+
+levels=
+JSON.parse(data);
+
+}
 
 }
 </script>
