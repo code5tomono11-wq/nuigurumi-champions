@@ -716,6 +716,10 @@ addLog("相手はやけどした！");
 
 enemy.hp-=damage;
 
+if(enemy.hp<0){
+    enemy.hp=0;
+}
+
 if(enemy.hp<0)
 enemy.hp=0;
 
@@ -852,6 +856,10 @@ if(burnTurns>0){
 
 enemy.hp-=8;
 
+if(enemy.hp<0){
+    enemy.hp=0;
+}
+
 burnTurns--;
 
 addLog("やけどダメージ！");
@@ -921,10 +929,11 @@ if(poisonTurns>0){
 
 enemy.hp-=5;
 
-poisonTurns--;
+if(enemy.hp<0){
+    enemy.hp=0;
+}
 
-if(enemy.hp<0)
-enemy.hp=0;
+poisonTurns--;
 
 addLog("毒ダメージ！");
 
@@ -1072,6 +1081,10 @@ addLog(
 
 enemy.hp-=damage;
 
+if(enemy.hp<0){
+    enemy.hp=0;
+}
+
 let text="";
 
 if(bonus>1){
@@ -1138,6 +1151,10 @@ damage=
 Math.floor(damage*bonus);
 
 enemy.hp-=damage;
+
+if(enemy.hp<0){
+    enemy.hp=0;
+}
 
 if(Math.random()<0.3){
 
