@@ -810,6 +810,30 @@ enemyTurn();
 }
 function enemyTurn(){
 
+if(player.hp <= 0){
+
+    let alive = false;
+
+    for(let i=0;i<teamData.length;i++){
+
+        if(teamData[i].hp > 0){
+            alive = true;
+        }
+
+    }
+
+    if(alive){
+
+        showReviveMenu();
+    }
+    else{
+
+        alert("敗北...");
+    }
+
+    return;
+}
+
 if(sleepTurns>0){
 
 sleepTurns--;
@@ -998,6 +1022,30 @@ enemy.name+"の攻撃！");
 
 drawBattle();
 
+if(player.hp<=0){
+
+    let alive = 0;
+
+    for(let i=0;i<teamData.length;i++){
+
+        if(teamData[i].hp>0){
+            alive++;
+        }
+
+    }
+
+    if(alive<=0){
+
+        alert("敗北...");
+        return;
+
+    }
+
+    showReviveMenu();
+    return;
+
+}
+
 }
 
 function switchCharacter(){
@@ -1006,6 +1054,11 @@ showSwitchMenu();
 
 }
 function useMove1(){
+
+if(player.hp <= 0){
+    showReviveMenu();
+    return;
+}
 
 let damage=20;
 
@@ -1092,6 +1145,11 @@ enemyTurn();
 
 function useMove2(){
 
+if(player.hp <= 0){
+    showReviveMenu();
+    return;
+}
+
 let damage=35;
 
 let critical=false;
@@ -1169,11 +1227,21 @@ enemyTurn();
 }
 function useMove3(){
 
+if(player.hp <= 0){
+    showReviveMenu();
+    return;
+}
+
 specialMove();
 
 }
 
 function useMove4(){
+
+if(player.hp <= 0){
+    showReviveMenu();
+    return;
+}
 
 if(player.name==="スイカゼリー"){
 
@@ -1278,8 +1346,6 @@ function showSwitchMenu(){
 let html="<h3>交代するキャラを選んでください</h3>";
 
 for(let i=0;i<teamData.length;i++){
-
-if(i===currentIndex) continue;
 
 if(teamData[i].hp<=0) continue;
 
