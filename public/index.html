@@ -302,6 +302,8 @@ let player;
 
 let enemy;
 
+let currentChar=team[currentIndex];
+
 let skipTurn=false;
 
 let currentIndex=0;
@@ -557,57 +559,6 @@ enemyTurn();
 }
 function specialMove(){
 
-if(player.name==="ポム子（帽子あり）"){
-
-let damage=80;
-
-let critical=false;
-
-if(Math.random()<0.25){
-damage*=2;
-critical=true;
-}
-
-if(Math.random()<0.3){
-burnTurns=3;
-addLog("相手はやけどした！");
-}
-
-enemy.hp-=damage;
-
-if(enemy.hp<0) enemy.hp=0;
-
-addLog("ぼうしミサイル発射！");
-
-if(critical){
-addLog("クリティカル！");
-}
-
-addLog(damage+"ダメージ！");
-
-drawBattle();
-
-if(enemy.hp<=0){
-nextEnemy();
-return;
-}
-
-enemyTurn();
-return;
-}
-enemyTurn();
-
-return;
-
-}
-
-let damage=80;
-
-enemyTurn();
-return;
-
-}
-
 if(player.name==="ポム子"){
 
 let oldHp=player.hp;
@@ -618,45 +569,81 @@ JSON.stringify(
 characters.pomu_hat
 ));
 
-player.hp+=30;
-player.maxHp+=30;
-player.atk+=15;
-
-player.atk+=15;
-
-player.maxHp=player.hp;
-player.hp=oldHp;
-
-if(player.hp>player.maxHp)
-player.hp=player.maxHp;
-
-player.maxHp=player.hp;
-player.hp=oldHp;
-
-if(player.hp>player.maxHp)
-player.hp=player.maxHp;
+player.maxHp=130;
+player.hp=Math.min(oldHp+30, player.maxHp);
+player.atk=28;
 
 addLog("ポム子は進化した！");
 
 updateMoves();
-
 drawBattle();
 
 return;
+
 }
+
+else if(player.name==="ポム子（帽子あり）"){
+
+let damage=80;
+
+let critical=false;
+
+if(Math.random()<0.25){
+
+damage*=2;
+critical=true;
+
+}
+
+if(Math.random()<0.3){
+
+burnTurns=3;
+addLog("相手はやけどした！");
+
+}
+
+enemy.hp-=damage;
+
+if(enemy.hp<0)
+enemy.hp=0;
+
+addLog("ぼうしミサイル発射！");
+
+if(critical){
+
+addLog("クリティカル！");
+
+}
+
+addLog(damage+"ダメージ！");
+
+drawBattle();
+
+if(enemy.hp<=0){
+
+nextEnemy();
+return;
+
+}
+
+enemyTurn();
+return;
+
+}
+
 else if(player.name==="将来有望なケンタッキーのチキン"){
 
 buffTurns=3;
 
-addLog("コケコッコー！3ターン強化！")	;
+addLog("コケコッコー！3ターン強化！");
 
 drawBattle();
 
 enemyTurn();
-
 return;
 
 }
+
 else if(player.name==="くうちゃん"){
 
 enemy.hp-=70;
@@ -679,6 +666,7 @@ enemy.hp-=20;
 poisonTurns=3;
 
 addLog("殻の雨！相手は毒になった！");
+
 }
 
 if(enemy.hp<0)
@@ -689,11 +677,13 @@ drawBattle();
 if(enemy.hp<=0){
 
 nextEnemy();
-
 return;
 
 }
 
+enemyTurn();
+
+}
 enemyTurn();
 
 }function nextEnemy(){
@@ -721,8 +711,6 @@ levels[currentChar]+
 exp[currentChar]+=10;
 
 addLog("経験値+10！");
-
-let currentChar=team[currentIndex];
 
 levels[currentChar]++;
 
