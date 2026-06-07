@@ -188,8 +188,6 @@ style="height:20px;background:lime;width:100%">
 
 <div id="switchMenu"></div>
 
-<div id="switchMenu"></div>
-
 <div id="log"
 style="
 width:500px;
@@ -343,9 +341,6 @@ kuu:1,
 pomu:1,
 suika:1
 };
-
-loadGame();
-
 
 loadGame();
 
@@ -562,36 +557,29 @@ enemyTurn();
 }
 function specialMove(){
 
-else if(player.name==="ポム子（帽子あり）"){
+if(player.name==="ポム子（帽子あり）"){
 
 let damage=80;
 
 let critical=false;
 
 if(Math.random()<0.25){
-
 damage*=2;
-
 critical=true;
-
 }
 
 if(Math.random()<0.3){
-
 burnTurns=3;
-
 addLog("相手はやけどした！");
 }
 
 enemy.hp-=damage;
 
-if(enemy.hp<0)
-enemy.hp=0;
+if(enemy.hp<0) enemy.hp=0;
 
 addLog("ぼうしミサイル発射！");
 
 if(critical){
-
 addLog("クリティカル！");
 }
 
@@ -600,13 +588,13 @@ addLog(damage+"ダメージ！");
 drawBattle();
 
 if(enemy.hp<=0){
-
 nextEnemy();
-
 return;
-
 }
 
+enemyTurn();
+return;
+}
 enemyTurn();
 
 return;
@@ -614,23 +602,6 @@ return;
 }
 
 let damage=80;
-
-enemy.hp-=damage;
-
-addLog("ぼうしミサイル！");
-addLog(damage+"ダメージ！");
-
-if(enemy.hp<0)
-enemy.hp=0;
-
-drawBattle();
-
-if(enemy.hp<=0){
-
-nextEnemy();
-return;
-
-}
 
 enemyTurn();
 return;
