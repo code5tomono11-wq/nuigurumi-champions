@@ -302,8 +302,6 @@ let player;
 
 let enemy;
 
-let currentChar=team[currentIndex];
-
 let skipTurn=false;
 
 let currentIndex=0;
@@ -556,7 +554,61 @@ return;
 }
 
 enemyTurn();
+
 }
+
+function nextEnemy(){
+
+let currentChar=team[currentIndex];
+
+while(exp[currentChar]>=levels[currentChar]*10){
+
+    exp[currentChar]-=levels[currentChar]*10;
+    levels[currentChar]++;
+
+    saveGame();
+
+    player.maxHp+=10;
+    player.hp+=10;
+    player.atk+=3;
+
+    addLog(
+        characters[currentChar].name+
+        "はレベル"+
+        levels[currentChar]+
+        "になった！"
+    );
+}
+
+exp[currentChar]+=10;
+
+addLog("経験値+10！");
+
+enemyIndex++;
+
+if(enemyIndex>=enemyTeam.length){
+
+    alert("勝利！！");
+    return;
+
+}
+
+enemy=
+JSON.parse(
+JSON.stringify(
+characters[
+enemyTeam[enemyIndex]
+]
+));
+
+enemy.maxHp=enemy.hp;
+
+addLog(enemy.name+"登場！");
+
+drawBattle();
+
+}
+
 function specialMove(){
 
 if(player.name==="ポム子"){
@@ -683,10 +735,9 @@ return;
 
 enemyTurn();
 
-}
-enemyTurn();
+function nextEnemy(){
 
-}function nextEnemy(){
+let currentChar=team[currentIndex];
 
 while(exp[currentChar]>=levels[currentChar]*10){
 
@@ -711,14 +762,6 @@ levels[currentChar]+
 exp[currentChar]+=10;
 
 addLog("経験値+10！");
-
-levels[currentChar]++;
-
-addLog(
-characters[currentChar].name+
-" はレベル"+
-levels[currentChar]+
-"になった！");
 
 level=levels[currentChar];
 
@@ -808,8 +851,6 @@ return;
 }
 
 }
-
-if(playerPoisonTurns>0){
 
 if(playerPoisonTurns>0){
 
