@@ -422,7 +422,13 @@ teamData.push(p);
 
 player=teamData[0];
 
-enemyTeam=["chicken","kuu","suika"];
+enemyTeam=[
+"chicken",
+"kuu",
+"suika",
+"mikan",
+"buhuko"
+];
 
 enemyIndex=0;
 
@@ -810,13 +816,17 @@ else if(player.name==="セクシーみかん"){
 enemy.accuracy -= 20;
 
 if(enemy.accuracy < 50){
-enemy.accuracy = 50;
+    enemy.accuracy = 50;
 }
 
 enemy.speed -= 10;
 
 if(enemy.speed < 1){
-enemy.speed = 1;
+    enemy.speed = 1;
+}
+
+addLog("セクシーダンス！");
+addLog("相手の命中率と素早さが下がった！");
 }
 
 else if(player.name==="ブーフコ"){
@@ -826,11 +836,6 @@ enemyAtkDownTurns = 3;
 addLog("ブッブーブー！");
 addLog("相手の攻撃が弱まった！");
 }
-
-addLog("セクシーダンス！");
-addLog("相手の命中率と素早さが下がった！");
-}
-
 if(enemy.hp<=0){
 
     nextEnemy();
@@ -964,6 +969,13 @@ return;
 }
 
 let damage=enemy.atk;
+
+if(Math.random()*100 > enemy.accuracy){
+
+addLog(enemy.name+"の攻撃は外れた！");
+return;
+
+}
 
 if(enemyAtkDownTurns > 0){
 
@@ -1402,6 +1414,24 @@ move1.innerText="ゼリーアタック";
 move2.innerText="ぷるぷる";
 move3.innerText="殻の雨";
 move4.innerText="殻盾";
+
+else if(player.name==="セクシーみかん"){
+
+move1.innerText="みかんパンチ";
+move2.innerText="みかんキック";
+move3.innerText="セクシーダンス";
+move4.innerText="まもる";
+
+}
+
+else if(player.name==="ブーフコ"){
+
+move1.innerText="たいあたり";
+move2.innerText="ぶひアタック";
+move3.innerText="ブッブーブー";
+move4.innerText="まもる";
+
+}
 
 }
 
